@@ -7,3 +7,6 @@ class Textbox(Label):
 		self.surface = surface
 		self.text = text
 		self.options = kwargs
+
+	def center(self):
+		self.place(x=0, y=0, relx=0.5, rely=0.5, anchor="center")

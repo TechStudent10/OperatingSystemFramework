@@ -4,7 +4,7 @@ from components.widgets import Textbox
 class MainScreen(Screen):
 	def build(self):
 		textbox = Textbox(self, text="I am in a class!")
-		textbox.pack()
+		textbox.center()
 
 class ManOS(Main):
 	def build(self):
