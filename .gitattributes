@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Costum Stuff
+__pycache__/
+components/__pycache__
+components/widgets/__pycache__

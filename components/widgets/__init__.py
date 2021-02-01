@@ -20,37 +20,37 @@ class Widget:
 	def center(self):
 		self.surface.place(x=0, y=0, relx=0.5, rely=0.5, anchor="center")
 
-class Textbox(Widget):
-	def __init__(self, surface=None, text=None, x=0, y=0, **kwargs):
+class InheirtWidget(Widget):
+	def __init__(self, surface=None, x=0, y=0, **kwargs):
 		super().__init__(surface)
 
 		self.master = surface
+
+		self.x = x
+		self.y = y
+
+		self.options = kwargs
+
+
+class Textbox(InheirtWidget):
+	def __init__(self, surface=None, text=None, x=0, y=0, **kwargs):
+		super().__init__(surface, x, y, **kwargs)
+
 		self.text = text
 
-		self.x = x
-		self.y = y
+		self._create(Label, self.x, self.y, text=self.text, **self.options)
 
-		self.options = kwargs
-
-		self._create(Label, self.x, self.y, text=self.text, **kwargs)
-
-class TextInputBox(Widget):
+class TextInputBox(InheirtWidget):
 	def __init__(self, surface=None, multiline=False, x=0, y=0, **kwargs):
-		super().__init__(surface)
+		super().__init__(surface, x, y, **kwargs)
 
-		self.master = surface
 		self.multiline = multiline
 
-		self.x = x
-		self.y = y
-
-		self.options = kwargs
-
 		if self.multiline:
-			self._create(ScrolledText, self.x, self.y, **kwargs)
+			self._create(ScrolledText, self.x, self.y, **self.options)
 		else:
 			self.stringVar = StringVar()
-			self._create(Entry, self.x, self.y, textvariable=self.stringVar, **kwargs)
+			self._create(Entry, self.x, self.y, textvariable=self.stringVar, **self.options)
 
 	def get(self, start=1.0, end=END):
 		if self.multiline:
@@ -72,17 +72,11 @@ class TextInputBox(Widget):
 		else:
 			self.widget.delete(0, END)
 
-class PushButton(Widget):
+class PushButton(InheirtWidget):
 	def __init__(self, surface=None, text=None, command=lambda: print(""), x=0, y=0, **kwargs):
-		super().__init__(surface)
+		super().__init__(surface, x, y, **kwargs)
 
-		self.master = surface
 		self.text = text
 		self.command = command
 
-		self.x = x
-		self.y = y
-
-		self.options = kwargs
-
-		self._create(Button, self.x, self.y, text=self.text, command=self.command, **kwargs)
+		self._create(Button, self.x, self.y, text=self.text, command=self.command, **self.options)
